@@ -3,21 +3,182 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ProjectS</title>
+  <title>ProjectS — бесплатные курсы по программированию</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: light; font-family: system-ui, sans-serif; }
-    body { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem; color: #24292f; background: #f6f8fa; }
-    main { padding: 2.5rem; background: #fff; border: 1px solid #d0d7de; border-radius: 12px; }
-    h1 { margin-top: 0; }
-    a { color: #0969da; }
+    :root {
+      --ink: #111116;
+      --muted: #7d8491;
+      --line: #e5e7eb;
+      --blue: #4537dc;
+      --blue-dark: #362bc2;
+      --sky: #edf3ff;
+      --mint: #eff9ee;
+      --lilac: #f5eaff;
+      color-scheme: light;
+      font-family: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: #fff; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1110px, calc(100% - 40px)); margin: 0 auto; }
+
+    .site-header { height: 64px; border-bottom: 1px solid var(--line); }
+    .header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; }
+    .brand-mark { display: grid; place-items: center; width: 31px; height: 31px; border: 3px solid #72aabd; border-radius: 50%; color: #72aabd; font-size: 13px; font-weight: 800; }
+    .nav, .header-actions { display: flex; align-items: center; gap: 25px; font-size: 14px; }
+    .nav-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .chevron { font-size: 12px; }
+    .header-actions { gap: 20px; }
+    .language { display: inline-flex; align-items: center; gap: 6px; }
+    .theme { color: var(--blue); font-size: 18px; }
+
+    .hero { padding: 69px 0 54px; text-align: center; }
+    .source-link { display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px; border: 1px solid #d8dce4; border-radius: 8px; color: #89919d; font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+    .source-link span { font-size: 12px; }
+    h1 { max-width: 700px; margin: 12px auto 10px; font-size: clamp(42px, 5vw, 66px); line-height: .98; letter-spacing: -.055em; font-weight: 600; }
+    .hero-copy { margin: 0 auto; color: var(--muted); font-size: 20px; line-height: 1.45; }
+    .hero-actions { display: flex; justify-content: center; gap: 12px; margin-top: 34px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-width: 157px; min-height: 52px; padding: 13px 20px; border: 1px solid var(--blue); font-weight: 800; font-size: 16px; transition: background .2s, color .2s, transform .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: #fff; background: var(--blue); }
+    .button-primary:hover { background: var(--blue-dark); }
+    .button-secondary { color: var(--blue); background: #fff; }
+    .button-secondary:hover { background: #f3f1ff; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { min-height: 164px; padding: 28px 34px; }
+    .feature-sky { background: var(--sky); }
+    .feature-mint { background: var(--mint); }
+    .feature-lilac { background: var(--lilac); }
+    .feature-icon { display: block; height: 24px; font-size: 22px; line-height: 1; }
+    .feature h2 { margin: 8px 0 5px; font-size: 28px; line-height: 1.05; letter-spacing: -.035em; }
+    .feature p { margin: 0; font-size: 14px; }
+
+    .courses { padding: 64px 0 90px; }
+    .section-heading { margin: 0 0 28px; font-size: 32px; line-height: 1.1; letter-spacing: -.04em; font-weight: 500; }
+    .course-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .course { overflow: hidden; background: #fff; border: 1px solid var(--line); transition: transform .2s, box-shadow .2s; }
+    .course:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(17, 17, 22, .08); }
+    .course-image { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; }
+    .course-body { padding: 17px 18px 19px; }
+    .course-body h3 { margin: 0 0 6px; font-size: 17px; }
+    .course-body p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+
+    footer { padding: 24px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; }
+    .footer-links { display: flex; gap: 18px; color: var(--blue); }
+
+    @media (max-width: 800px) {
+      .nav { display: none; }
+      .header-actions { margin-left: auto; }
+      h1 { font-size: clamp(39px, 11vw, 60px); }
+      .feature-grid, .course-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 540px) {
+      .container { width: min(100% - 28px, 420px); }
+      .site-header { height: 58px; }
+      .header-actions a:not(.theme) { display: none; }
+      .hero { padding: 52px 0 42px; }
+      .hero-copy { font-size: 17px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button { width: 100%; }
+      .feature-grid, .course-grid { grid-template-columns: 1fr; }
+      .feature { min-height: auto; padding: 24px 26px; }
+      .courses { padding: 48px 0 64px; }
+      .section-heading { font-size: 28px; }
+      .footer-inner { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ProjectS">
+        <span class="brand-mark">co</span>
+        <span>ProjectS</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a class="nav-link" href="#courses">Курсы <span class="chevron">⌄</span></a>
+        <a class="nav-link" href="#features">Решения <span class="chevron">⌄</span></a>
+        <a class="nav-link" href="README.md">Книга для начинающих</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#signup">Вход</a>
+        <a href="#signup">Регистрация</a>
+        <a class="language" href="#">RU <span class="chevron">⌄</span></a>
+        <span class="theme" aria-label="Светлая тема">☾</span>
+      </div>
+    </div>
+  </header>
+
   <main>
-    <h1>ProjectS</h1>
-    <p>Подборка открытых проектов для получения коммерческого опыта.</p>
-    <p><a href="README.md">Открыть каталог проектов</a></p>
-    <p><a href="https://github.com/Bahrom787/ProjectS">Исходный код на GitHub</a></p>
+    <section class="hero">
+      <div class="container">
+        <a class="source-link" href="https://github.com/Bahrom787/ProjectS"><span>⌘</span> Исходный код</a>
+        <h1>Бесплатные курсы по<br>программированию с нуля</h1>
+        <p class="hero-copy">С практикой в тренажере и ассистентом на базе ChatGPT</p>
+        <div class="hero-actions" id="signup">
+          <a class="button button-primary" href="#courses">К курсам <span aria-hidden="true">→</span></a>
+          <a class="button button-secondary" href="https://github.com/Bahrom787/ProjectS">Регистрация</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="features" aria-label="Возможности">
+      <div class="feature-grid">
+        <article class="feature feature-sky">
+          <span class="feature-icon" aria-hidden="true">▣</span>
+          <h2>Текстовые курсы</h2>
+          <p>теория, тренажер, решение учителя</p>
+        </article>
+        <article class="feature feature-mint">
+          <span class="feature-icon" aria-hidden="true">➤</span>
+          <h2>Сообщество</h2>
+          <p>Более 8 000 участников</p>
+        </article>
+        <article class="feature feature-lilac">
+          <span class="feature-icon" aria-hidden="true">♙</span>
+          <h2>ИИ-ассистент</h2>
+          <p>Подсказки и анализ кода</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="courses container" id="courses">
+      <h2 class="section-heading">Курсы по программированию</h2>
+      <div class="course-grid">
+        <a class="course" href="https://code-basics.com/languages/php">
+          <img class="course-image" src="projects/code-basics/assets/codebasics.jpg" alt="Курс по PHP" loading="lazy">
+          <div class="course-body"><h3>PHP</h3><p>Освой основы веб-разработки</p></div>
+        </a>
+        <a class="course" href="https://code-basics.com/languages/javascript">
+          <img class="course-image" src="projects/code-basics/assets/codebasics-2.png" alt="Курс по JavaScript" loading="lazy">
+          <div class="course-body"><h3>JavaScript</h3><p>Создавай интерактивные сайты</p></div>
+        </a>
+        <a class="course" href="README.md">
+          <img class="course-image" src="projects/code-basics/assets/codebasics.jpg" alt="Каталог проектов" loading="lazy">
+          <div class="course-body"><h3>Другие проекты</h3><p>Изучай открытый исходный код</p></div>
+        </a>
+        <a class="course" href="https://github.com/Bahrom787/ProjectS">
+          <img class="course-image" src="projects/code-basics/assets/codebasics-2.png" alt="Открытый исходный код" loading="lazy">
+          <div class="course-body"><h3>Open Source</h3><p>Присоединяйся к разработке</p></div>
+        </a>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>ProjectS, 2026</span>
+      <div class="footer-links"><a href="README.md">Каталог</a><a href="https://github.com/Bahrom787/ProjectS">GitHub</a></div>
+    </div>
+  </footer>
 </body>
 </html>
